@@ -51,7 +51,7 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.6vw,52px);l
 .fld{display:grid;gap:4px;min-width:0}
 .fld label,.lbl{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-input[type=text],input[type=search],select,textarea{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:7px 9px}
+input[type=text],input[type=search],input[type=password],select,textarea{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:7px 9px}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
 textarea{resize:vertical}
 .money{font-family:var(--mono)}
@@ -326,9 +326,18 @@ footer.foot span{font-family:var(--mono);font-size:10.5px;text-transform:upperca
   <form class="sheet" id="auth-form" autocomplete="on">
     <div class="eyebrow">Phoenix London and Regional</div>
     <h1>Lender Index</h1>
-    <p class="small" style="margin:0">Enter your work email and we'll send you a sign-in link. Only people on the team's access list can sign in.</p>
-    <div class="fld"><label for="auth-email">Email</label><input type="text" id="auth-email" inputmode="email" autocomplete="email" required></div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="submit">Email me a link</button><span class="small" id="auth-msg" role="status"></span></div>
+    <div class="fld"><label for="auth-email">Email</label><input type="text" id="auth-email" inputmode="email" autocomplete="username" required></div>
+    <div class="fld"><label for="auth-pass">Password</label><input type="password" id="auth-pass" autocomplete="current-password" required></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="submit">Sign in</button><button type="button" class="copy" id="auth-forgot">Forgot password?</button></div>
+    <span class="small" id="auth-msg" role="status"></span>
+  </form>
+  <form class="sheet" id="reset-form" hidden autocomplete="on">
+    <div class="eyebrow">Phoenix London and Regional</div>
+    <h1>Set a new password</h1>
+    <div class="fld"><label for="reset-pass">New password</label><input type="password" id="reset-pass" autocomplete="new-password" minlength="8" required></div>
+    <div class="fld"><label for="reset-pass2">Confirm new password</label><input type="password" id="reset-pass2" autocomplete="new-password" minlength="8" required></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="submit">Save password</button></div>
+    <span class="small" id="reset-msg" role="status"></span>
   </form>
 </div>
 
@@ -347,6 +356,7 @@ window.PLI_CONFIG = {
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let LENDERS=[], NOTES={}, VERIFIED={}, DEALS=[], db=null, USER_EMAIL=null, USER_NAME=null;
+let RECOVERY=/type=recovery/.test(location.hash);  // arrived from a password-reset email
 const CFG=window.PLI_CONFIG||{};
 const sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey);
 const must=async q=>{ const {data,error}=await q; if(error) throw error; return data; };
@@ -900,28 +910,48 @@ async function startData(){
 
 /* ---------- auth ---------- */
 let started=false;
+function showAuth(which){ $("#auth").hidden=!which; $("#auth-form").hidden=which!=="signin"; $("#reset-form").hidden=which!=="reset"; }
 async function applySession(session){
-  if(!session){ db=null; USER_EMAIL=null; $("#auth").hidden=false; $("#who").hidden=true; $("#ask").hidden=true; return; }
-  USER_EMAIL=session.user.email; $("#auth").hidden=true; $("#who").hidden=false; $("#who-email").textContent=USER_EMAIL;
+  if(session&&RECOVERY){ showAuth("reset"); return; }
+  if(!session){ db=null; USER_EMAIL=null; showAuth("signin"); $("#who").hidden=true; $("#ask").hidden=true; return; }
+  USER_EMAIL=session.user.email; showAuth(null); $("#who").hidden=false; $("#who-email").textContent=USER_EMAIL;
   if(started) return; started=true;
   const ok=await sb.rpc("is_member");
-  if(ok.error||!ok.data){ started=false; await sb.auth.signOut(); $("#auth-msg").textContent=USER_EMAIL+" isn't on the access list."; return; }
+  if(ok.error||!ok.data){ started=false; const em=USER_EMAIL; await sb.auth.signOut(); $("#auth-msg").textContent=em+" isn't on the access list. Ask an admin to add you."; return; }
   const me=await sb.from("allowed_users").select("name").maybeSingle();
   USER_NAME=(me.data&&me.data.name)||USER_EMAIL.split("@")[0].replace(/^./,c=>c.toUpperCase());
   db=true; $("#ask").hidden=false; startData();
 }
 $("#auth-form").addEventListener("submit",async e=>{
-  e.preventDefault(); const email=$("#auth-email").value.trim(); const msg=$("#auth-msg"); if(!email) return;
+  e.preventDefault(); const email=$("#auth-email").value.trim(), password=$("#auth-pass").value, msg=$("#auth-msg");
+  if(!email||!password) return;
+  msg.textContent="Signing in…";
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  msg.textContent=!error?"":/invalid login|invalid credentials/i.test(error.message)?"Email or password is incorrect."
+    :/not confirmed/i.test(error.message)?"This account hasn't been confirmed yet. Ask an admin to confirm it in Supabase."
+    :"Couldn't sign in: "+error.message;
+});
+$("#auth-forgot").onclick=async()=>{
+  const email=$("#auth-email").value.trim(), msg=$("#auth-msg");
+  if(!email){ msg.textContent="Enter your email above first, then click Forgot password."; $("#auth-email").focus(); return; }
   msg.textContent="Sending…";
-  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
-  msg.textContent=!error?"Check your inbox for a sign-in link."
-    : /signups? not allowed|not found|database error|access list/i.test(error.message)?"That email hasn't been set up yet. Ask an admin to add you."
-    : "Couldn't send the link: "+error.message;
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+  msg.textContent=error?"Couldn't send the reset email: "+error.message:"If that email has an account, a reset link is on its way.";
+};
+$("#reset-form").addEventListener("submit",async e=>{
+  e.preventDefault(); const a=$("#reset-pass").value, b=$("#reset-pass2").value, msg=$("#reset-msg");
+  if(a.length<8){ msg.textContent="Use at least 8 characters."; return; }
+  if(a!==b){ msg.textContent="The two passwords don't match."; return; }
+  msg.textContent="Saving…";
+  const {error}=await sb.auth.updateUser({password:a});
+  if(error){ msg.textContent="Couldn't save: "+error.message; return; }
+  RECOVERY=false; window.history.replaceState(null,"",location.pathname+location.search);
+  const {data}=await sb.auth.getSession(); applySession(data.session);
 });
 $("#signout").onclick=async()=>{ await sb.auth.signOut(); location.reload(); };
 
 renderMatch(); renderDir();
-sb.auth.onAuthStateChange((_e,s)=>{ setTimeout(()=>applySession(s),0); });
+sb.auth.onAuthStateChange((ev,s)=>{ if(ev==="PASSWORD_RECOVERY") RECOVERY=true; setTimeout(()=>applySession(s),0); });
 })();
 </script>
 
