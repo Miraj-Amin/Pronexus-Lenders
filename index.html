@@ -1,0 +1,928 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Phoenix Lender Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;1,400&family=Carlito:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@400;600&display=swap">
+<style>
+/* Layout: Phoenix L&R brochure language — navy cover band, cream page, white cards; deal sheet left, ranked lenders right; side sheets for profiles and shortlist tools. */
+:root{
+  --bg:#F3EEE4; --surface:#FFFFFF; --sunk:#EAE4D8; --line:#DDD6C8; --ink:#16243A; --body-ink:#1F2B3D; --muted:#7A808A;
+  --accent:#2A7F7E; --accent-ink:#2A7F7E; --accent-soft:#E1EEEC; --on-accent:#FFFFFF;
+  --navy:#16243A; --cream:#F3EEE4; --teal-light:#7FB5B4;
+  --primary:#16243A; --on-primary:#F3EEE4;
+  --fit:#3B7A3E; --fit-soft:#E2EEDD; --check:#A2650F; --check-soft:#F6E9D2; --out:#A33A3A; --out-soft:#F4E0DD; --near:#6A4C96; --near-soft:#ECE5F3;
+  --display:Georgia,"Gelasio","Times New Roman",serif; --body:Calibri,"Carlito","Segoe UI",system-ui,sans-serif; --mono:Consolas,"Inconsolata",ui-monospace,Menlo,monospace;
+  --r:2px; --shadow:0 1px 3px rgba(22,36,58,.08),0 1px 1px rgba(22,36,58,.04);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16243A; --surface:#1D2D46; --sunk:#22344F; --line:#2E4260; --ink:#F3EEE4; --body-ink:#E4DFD5; --muted:#9AA3B2;
+  --accent:#7FB5B4; --accent-ink:#7FB5B4; --accent-soft:#1F3B4A; --on-accent:#16243A;
+  --primary:#F3EEE4; --on-primary:#16243A;
+  --fit:#8CC79A; --fit-soft:#1F3A30; --check:#E2B467; --check-soft:#3A3222; --out:#EE9A93; --out-soft:#40262C; --near:#C2A8E6; --near-soft:#302848;
+  --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16243A; --surface:#1D2D46; --sunk:#22344F; --line:#2E4260; --ink:#F3EEE4; --body-ink:#E4DFD5; --muted:#9AA3B2;
+  --accent:#7FB5B4; --accent-ink:#7FB5B4; --accent-soft:#1F3B4A; --on-accent:#16243A;
+  --primary:#F3EEE4; --on-primary:#16243A;
+  --fit:#8CC79A; --fit-soft:#1F3A30; --check:#E2B467; --check-soft:#3A3222; --out:#EE9A93; --out-soft:#40262C; --near:#C2A8E6; --near-soft:#302848;
+  --shadow:none; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--body-ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 110px}
+/* cover band — always navy, like the brochure cover */
+.cover{background:#16243A;color:#F3EEE4;border-bottom:1px solid #2E4260}
+.cover .in{max-width:1320px;margin:0 auto;padding-block:26px 0;display:grid;gap:10px}
+.eyebrow{font-family:var(--mono);text-transform:uppercase;letter-spacing:.24em;font-size:11px;color:var(--accent-ink)}
+.cover .eyebrow{color:#7FB5B4}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.6vw,52px);letter-spacing:-.005em;margin:0;line-height:1.05;color:#F3EEE4;text-wrap:balance}
+.sub{font-family:var(--display);font-style:italic;color:#C9CED6;font-size:17px}
+.tabs{display:flex;flex-wrap:wrap;gap:0;margin-top:14px}
+.tabs button{all:unset;cursor:pointer;padding:12px 18px 11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:#9AA3B2;border-bottom:2px solid transparent}
+.tabs button:hover{color:#F3EEE4}
+.tabs button[aria-selected="true"]{color:#F3EEE4;border-bottom-color:#7FB5B4}
+.tabs button:focus-visible,.btn:focus-visible,.row:focus-visible,.tog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid{display:grid;grid-template-columns:minmax(290px,360px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:minmax(0,1fr)}}
+.sheet{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--line);padding:18px;display:grid;gap:14px}
+.sheet.sticky{position:sticky;top:calc(12px + env(safe-area-inset-top,0px));max-height:calc(100vh - 24px);overflow-y:auto}
+@media (max-width:880px){.sheet.sticky{position:static;max-height:none}}
+.sheet h2,.panelh{font-family:var(--mono);font-weight:400;font-size:11px;text-transform:uppercase;letter-spacing:.24em;margin:0;color:var(--accent-ink)}
+.sep{border:0;border-top:1px solid var(--line);margin:0}
+.fld{display:grid;gap:4px;min-width:0}
+.fld label,.lbl{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=text],input[type=search],select,textarea{width:100%;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:7px 9px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+textarea{resize:vertical}
+.money{font-family:var(--mono)}
+.computed{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.ratios{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.ratio{background:var(--surface);padding:10px 12px}
+.ratio b{display:block;font-family:var(--display);font-size:26px;font-weight:400;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.ratio span{font-family:var(--mono);font-size:10px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.16em}
+.checks{display:grid;gap:6px}
+.checks label{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.checks input,.row input[type=checkbox]{accent-color:var(--accent)}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:var(--r);font-family:var(--mono);text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;border:1px solid var(--ink);background:transparent;color:var(--ink);white-space:nowrap}
+.btn.primary{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.btn.small{padding:5px 10px;font-size:10.5px}
+.btn.danger{color:var(--out);border-color:var(--out)}
+.btn[disabled]{opacity:.5;cursor:default}
+.ask{background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px;display:grid;gap:8px}
+.ask textarea{min-height:74px;background:var(--surface)}
+.results{display:grid;gap:22px;min-width:0}
+.summary{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.pill.fit{background:var(--fit-soft);color:var(--fit)} .pill.check{background:var(--check-soft);color:var(--check)} .pill.out{background:var(--out-soft);color:var(--out)} .pill.near{background:var(--near-soft);color:var(--near)}
+.pill.muted{background:var(--sunk);color:var(--muted)} .pill.ok{background:var(--accent-soft);color:var(--accent-ink)}
+.tog{all:unset;cursor:pointer;font-size:13px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--body-ink)}
+.tog[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.group h3{font-family:var(--display);font-weight:400;font-size:26px;color:var(--ink);margin:0 0 10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.group h3 small{font-family:var(--body);font-size:14px;color:var(--muted)}
+.list{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);overflow:hidden}
+.row{display:grid;grid-template-columns:4px 26px minmax(0,1.4fr) minmax(0,2fr) auto;gap:12px;align-items:center;padding:12px 14px 12px 0;border-top:1px solid var(--line);cursor:pointer}
+.row.nosel{grid-template-columns:4px minmax(0,1.4fr) minmax(0,2fr) auto}
+.row:first-child{border-top:0}
+.row:hover{background:var(--sunk)}
+.row input[type=checkbox]{width:18px;height:18px;cursor:pointer}
+.stripe{align-self:stretch}
+.stripe.fit{background:var(--fit)} .stripe.check{background:var(--check)} .stripe.out{background:var(--out)} .stripe.near{background:var(--near)} .stripe.none{background:var(--line)}
+.name{font-family:var(--display);font-size:18px;color:var(--ink);min-width:0;line-height:1.2}
+.name small{display:block;font-family:var(--body);color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.facts{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--muted);min-width:0}
+.facts b{font-family:var(--display);font-size:15px;font-weight:400;color:var(--ink);font-variant-numeric:tabular-nums}
+.badges{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.reasons{grid-column:3 / -1;display:flex;flex-wrap:wrap;gap:4px;margin-top:-4px}
+.row.nosel .reasons{grid-column:2 / -1}
+.chip{font-size:12.5px;padding:2px 8px;border-radius:var(--r);background:var(--sunk);color:var(--muted)}
+.chip.fail{background:var(--out-soft);color:var(--out)} .chip.unk{background:var(--check-soft);color:var(--check)} .chip.fix{background:var(--near-soft);color:var(--near);font-weight:700}
+@media (max-width:640px){.row{grid-template-columns:4px 26px minmax(0,1fr) auto}.row .facts{grid-column:3 / -1}.row.nosel{grid-template-columns:4px minmax(0,1fr) auto}.row.nosel .facts{grid-column:2 / -1}}
+.empty{padding:28px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:var(--r)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar input[type=search]{flex:1 1 220px;max-width:440px}
+.toolbar select{width:auto}
+details.fold summary{cursor:pointer;font-family:var(--mono);text-transform:uppercase;letter-spacing:.14em;font-size:11.5px;color:var(--muted);padding:6px 0}
+/* shortlist tray */
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:15;background:#16243A;color:#F3EEE4;border-top:2px solid #7FB5B4;
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.tray .in{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tray .btn{color:#F3EEE4;border-color:rgba(243,238,228,.4)}
+.tray .btn.primary{background:#F3EEE4;color:#16243A;border-color:#F3EEE4}
+.tray b{font-family:var(--display);font-weight:400;font-size:19px;margin-right:8px}
+/* side sheet */
+.scrim{position:fixed;inset:0;background:rgba(22,36,58,.5);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(760px,100%);background:var(--bg);z-index:21;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.25);
+  padding:calc(22px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(40px + env(safe-area-inset-bottom,0px)) 22px}
+.drawer.wide{width:min(1100px,100%)}
+.dhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:18px}
+.dhead h2{font-family:var(--display);font-weight:400;font-size:34px;color:var(--ink);margin:0;line-height:1.08}
+.dsec{margin-bottom:22px}
+.dsec h4{font-family:var(--mono);font-weight:400;text-transform:uppercase;letter-spacing:.24em;font-size:11px;margin:0 0 8px;color:var(--accent-ink)}
+.dsec p{margin:0;max-width:68ch}
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.person{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);padding:12px 14px;display:grid;gap:3px;min-width:0}
+.person b{font-family:var(--display);font-weight:400;font-size:17px;color:var(--ink)}
+.person .role{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-ink)}
+.ct{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere;display:flex;gap:6px;align-items:center}
+.copy{all:unset;cursor:pointer;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:10px;color:var(--accent-ink);padding:0 3px;white-space:nowrap}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:var(--surface);border:1px solid var(--line);padding:14px;font-size:14px}
+.contact > div{min-width:0;overflow-wrap:anywhere}
+.scrollx{overflow-x:auto}
+table.crit{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line)}
+table.crit th{width:36%;text-align:left;font-weight:700;padding:8px 12px;vertical-align:top;background:var(--sunk);border-bottom:1px solid var(--surface);color:var(--ink)}
+table.crit td{padding:8px 12px;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+table.crit td.na{color:var(--muted);font-style:italic}
+table.cmp{border-collapse:collapse;font-size:13px;background:var(--surface);min-width:100%}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;text-align:left;min-width:180px}
+table.cmp thead th{background:#16243A;color:#F3EEE4;font-family:var(--display);font-weight:400;font-size:17px;position:sticky;top:0}
+table.cmp tbody th{background:var(--sunk);min-width:150px;font-weight:700;color:var(--ink)}
+table.cmp td.na{color:var(--muted);font-style:italic}
+table.trk{width:100%;border-collapse:collapse;font-size:14px}
+table.trk th,table.trk td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+table.trk th{font-family:var(--mono);font-weight:400;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+table.trk select,table.trk input{padding:4px 6px;font-size:13px}
+.card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);padding:16px 18px;display:grid;gap:10px}
+.card h3{margin:0;font-family:var(--display);font-weight:400;font-size:24px;color:var(--ink)}
+.mail{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);padding:14px;display:grid;gap:6px}
+.mail b{font-family:var(--display);font-weight:400;font-size:18px;color:var(--ink)}
+.mail pre{white-space:pre-wrap;font-family:var(--body);font-size:14px;margin:0;background:var(--bg);padding:12px;max-height:280px;overflow:auto;color:var(--body-ink)}
+.notes textarea{min-height:110px;font-family:var(--body);line-height:1.5}
+.small{font-size:13px;color:var(--muted)}
+.src a{color:var(--accent-ink);overflow-wrap:anywhere}
+.info{background:var(--check-soft);color:var(--check);padding:9px 12px;font-size:14px}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+footer.foot{max-width:1320px;margin:28px auto 0;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+footer.foot span{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--muted)}
+/* sign-in */
+.authwrap{position:fixed;inset:0;z-index:30;background:var(--bg);overflow:auto;padding:max(40px,env(safe-area-inset-top,0px)) 16px 40px}
+.authwrap .sheet{max-width:420px;margin:0 auto}
+.authwrap h1{color:var(--ink);font-size:34px}
+.who{margin-left:auto;display:flex;align-items:center;gap:4px;font-family:var(--mono);font-size:11px;color:#9AA3B2;letter-spacing:.06em}
+@media (prefers-reduced-motion:no-preference){.drawer{animation:slide .18s ease-out}@keyframes slide{from{transform:translateX(24px);opacity:.6}}}
+</style>
+
+</head>
+<body>
+<div class="cover gut"><div class="in">
+  <div class="eyebrow">Phoenix London and Regional &nbsp;·&nbsp; Lender Index</div>
+  <h1>Phoenix Lender Index</h1>
+  <div class="sub" id="sub">Bridging, development &amp; commercial lenders</div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-match" aria-selected="true">Match a deal</button>
+    <button role="tab" id="tab-deals" aria-selected="false">Deals</button>
+    <button role="tab" id="tab-dir" aria-selected="false">Directory</button>
+    <button role="tab" id="tab-add" aria-selected="false">Add lender</button>
+    <span class="who" id="who" hidden><span id="who-email"></span><button type="button" id="signout">Sign out</button></span>
+  </div>
+</div></div>
+<div class="wrap">
+
+  <!-- MATCH -->
+  <section id="view-match" class="grid">
+    <form class="sheet sticky" id="deal" autocomplete="off">
+      <div class="ask" id="ask" hidden>
+        <label for="d-text" class="lbl">Describe the deal in plain English</label>
+        <textarea id="d-text" placeholder="e.g. £1.2m bridge on a semi-commercial in Croydon worth £1.8m, heavy refurb, GDV £2.4m, 12 months, 2nd charge, UK Ltd borrower"></textarea>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button type="button" class="btn primary small" id="d-parse">Fill the form</button><span class="small" id="d-parse-msg" role="status"></span></div>
+      </div>
+      <div class="fld"><label for="d-name">Deal name</label>
+        <div style="display:flex;gap:6px"><input type="text" id="d-name" placeholder="e.g. Forest Hill Road"><button type="button" class="btn small" id="d-save">Save</button></div>
+        <div style="display:flex;gap:6px;align-items:center"><select id="d-load" aria-label="Load a saved deal"><option value="">Load a saved deal…</option></select></div>
+        <span class="small" id="d-save-msg" role="status"></span>
+      </div>
+      <hr class="sep">
+      <div class="two">
+        <div class="fld"><label for="d-type">Facility</label>
+          <select id="d-type">
+            <option value="bridge">Bridge — purchase / refi</option>
+            <option value="light">Light refurbishment</option>
+            <option value="heavy">Heavy refurb / conversion</option>
+            <option value="dev">Ground-up development</option>
+            <option value="devexit">Development exit</option>
+            <option value="mezz">Mezzanine / stretch senior</option>
+            <option value="land">Land with planning</option>
+            <option value="landnp">Land without planning</option>
+            <option value="cm">Commercial mortgage</option>
+            <option value="btl">Buy-to-let (term)</option>
+          </select></div>
+        <div class="fld"><label for="d-asset">Asset</label>
+          <select id="d-asset">
+            <option value="resi">Residential</option>
+            <option value="hmo">HMO / multi-unit block</option>
+            <option value="semi">Semi-commercial</option>
+            <option value="commercial">Commercial</option>
+            <option value="hotel">Hotel / leisure</option>
+            <option value="care">Care / healthcare</option>
+            <option value="land">Land / site</option>
+          </select></div>
+      </div>
+      <div class="two">
+        <div class="fld"><label for="d-purchase">Purchase price (£)</label><input type="text" id="d-purchase" class="money" inputmode="decimal" placeholder="or refi value"></div>
+        <div class="fld"><label for="d-works">Works budget (£)</label><input type="text" id="d-works" class="money" inputmode="decimal" placeholder="0 if none"></div>
+        <div class="fld"><label for="d-value">Current value (£)</label><input type="text" id="d-value" class="money" inputmode="decimal" placeholder="today"></div>
+        <div class="fld"><label for="d-gdv" id="l-gdv">GDV / end value (£)</label><input type="text" id="d-gdv" class="money" inputmode="decimal" placeholder="after works"></div>
+        <div class="fld"><label for="d-loan">Total loan (£)</label><input type="text" id="d-loan" class="money" inputmode="decimal" placeholder="gross"></div>
+        <div class="fld" id="w-day1"><label for="d-day1">Day-1 advance (£)</label><input type="text" id="d-day1" class="money" inputmode="decimal" placeholder="optional"></div>
+      </div>
+      <div class="computed" id="d-computed"></div>
+      <p class="small" id="ratio-note" style="margin:0"></p>
+      <div class="ratios" aria-live="polite">
+        <div class="ratio"><b id="r-ltv">—</b><span id="r-ltv-l">LTV</span></div>
+        <div class="ratio"><b id="r-ltgdv">—</b><span>LTGDV</span></div>
+        <div class="ratio"><b id="r-ltc">—</b><span>LTC</span></div>
+      </div>
+      <div class="two">
+        <div class="fld"><label for="d-charge">Charge</label><select id="d-charge"><option value="1st">1st charge</option><option value="2nd">2nd charge</option></select></div>
+        <div class="fld"><label for="d-term">Term (months)</label><input type="text" id="d-term" class="money" inputmode="numeric" placeholder="e.g. 12"></div>
+      </div>
+      <div class="fld"><label for="d-geo">Location</label>
+        <select id="d-geo">
+          <optgroup label="UK &amp; Ireland"><option>England</option><option>Wales</option><option>Scotland</option><option>Northern Ireland</option><option>Ireland</option></optgroup>
+          <optgroup label="Europe"><option>Spain</option><option>Austria</option><option>Portugal</option><option>Germany</option><option>Italy</option><option>Netherlands</option><option value="Europe">Other Europe</option></optgroup>
+          <optgroup label="Elsewhere"><option value="International">Outside Europe</option></optgroup>
+        </select></div>
+      <div class="checks">
+        <label><input type="checkbox" id="d-reg"> Regulated (borrower or family will live there)</label>
+        <label><input type="checkbox" id="d-listed"> Listed building</label>
+        <label><input type="checkbox" id="d-fn"> Foreign national / overseas borrower</label>
+        <label><input type="checkbox" id="d-ftd"> First-time developer</label>
+        <label><input type="checkbox" id="d-incomplete"> Include lenders with contacts only</label>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="d-reset">Clear deal</button></div>
+    </form>
+    <div class="results">
+      <div class="toolbar">
+        <label class="lbl" for="sort">Sort</label>
+        <select id="sort">
+          <option value="best">Best match</option>
+          <option value="rate">Lowest rate</option>
+          <option value="lev">Highest leverage</option>
+          <option value="size">Largest max loan</option>
+          <option value="hist">Placed with before</option>
+          <option value="ver">Verified first</option>
+        </select>
+      </div>
+      <div class="chiprow" id="musts" aria-label="Must have"></div>
+      <div id="results" class="results"><div class="empty">Loading lenders…</div></div>
+    </div>
+  </section>
+
+  <!-- DEALS -->
+  <section id="view-deals" hidden>
+    <div id="deals" class="results"></div>
+  </section>
+
+  <!-- DIRECTORY -->
+  <section id="view-dir" hidden>
+    <div class="toolbar" style="margin-bottom:10px">
+      <input type="search" id="q" placeholder="Search lender, contact, sector — e.g. pub, care home, auction, Spain" aria-label="Search lenders">
+      <select id="f-prod" aria-label="Product"><option value="">All products</option></select>
+      <select id="f-src" aria-label="Source"><option value="">All sources</option></select>
+      <select id="f-prof" aria-label="Profile"><option value="">Any profile</option><option>Full</option><option>Partial</option><option>Contacts only</option></select>
+      <span class="small" id="dir-count"></span>
+    </div>
+    <div class="chiprow" id="quick" style="margin-bottom:12px"></div>
+    <div class="list" id="dir"></div>
+  </section>
+
+  <!-- ADD -->
+  <section id="view-add" hidden>
+    <form id="addform" class="sheet" style="max-width:860px">
+      <h2>Add a lender</h2>
+      <p class="small" style="margin:0">Add the basics here; Claude can fill in the full criteria later from a product guide, the Index or the lender's website.</p>
+      <div class="formgrid">
+        <div class="fld"><label for="a-name">Lender name *</label><input type="text" id="a-name" required></div>
+        <div class="fld"><label for="a-web">Website</label><input type="text" id="a-web"></div>
+        <div class="fld"><label for="a-cname">Contact name</label><input type="text" id="a-cname"></div>
+        <div class="fld"><label for="a-crole">Contact role</label><input type="text" id="a-crole"></div>
+        <div class="fld"><label for="a-cphone">Contact phone</label><input type="text" id="a-cphone"></div>
+        <div class="fld"><label for="a-cemail">Contact email</label><input type="text" id="a-cemail"></div>
+        <div class="fld"><label for="a-prod">Products (comma separated)</label><input type="text" id="a-prod" placeholder="Bridging, Refurbishment"></div>
+        <div class="fld"><label for="a-ltv">Max LTV % (resi)</label><input type="text" id="a-ltv" inputmode="decimal"></div>
+        <div class="fld"><label for="a-min">Min loan (£)</label><input type="text" id="a-min" class="money"></div>
+        <div class="fld"><label for="a-max">Max loan (£)</label><input type="text" id="a-max" class="money"></div>
+      </div>
+      <div class="fld"><label for="a-notes">Notes</label><textarea id="a-notes" rows="3"></textarea></div>
+      <div style="display:flex;gap:10px;align-items:center"><button class="btn primary" type="submit">Add lender</button><span class="small" id="a-msg" role="status"></span></div>
+    </form>
+  </section>
+  <footer class="foot"><span>Phoenix London and Regional</span><span>Private &amp; confidential &nbsp;·&nbsp; criteria change — confirm before quoting</span></footer>
+</div>
+
+<div class="tray" id="tray" hidden><div class="in">
+  <b id="tray-n">0 shortlisted</b>
+  <button class="btn small primary" id="t-cmp">Compare</button>
+  <button class="btn small" id="t-ct">Contacts</button>
+  <button class="btn small" id="t-mail">Enquiry emails</button>
+  <button class="btn small" id="t-log">Log as approached</button>
+  <button class="btn small" id="t-clear">Clear</button>
+  <span class="small" id="t-msg" role="status" style="color:inherit;opacity:.8"></span>
+</div></div>
+
+<div id="drawer-root"></div>
+
+<div class="authwrap" id="auth" hidden>
+  <form class="sheet" id="auth-form" autocomplete="on">
+    <div class="eyebrow">Phoenix London and Regional</div>
+    <h1>Lender Index</h1>
+    <p class="small" style="margin:0">Enter your work email and we'll send you a sign-in link. Only people on the team's access list can sign in.</p>
+    <div class="fld"><label for="auth-email">Email</label><input type="text" id="auth-email" inputmode="email" autocomplete="email" required></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="submit">Email me a link</button><span class="small" id="auth-msg" role="status"></span></div>
+  </form>
+</div>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ===== CONFIG — fill these in (the anon key is safe to publish; RLS protects the data) ===== */
+window.PLI_CONFIG = {
+  supabaseUrl: "https://YOUR-PROJECT.supabase.co",
+  supabaseAnonKey: "YOUR-ANON-KEY"
+};
+</script>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let LENDERS=[], NOTES={}, VERIFIED={}, DEALS=[], db=null, USER_EMAIL=null, USER_NAME=null;
+const CFG=window.PLI_CONFIG||{};
+const sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey);
+const must=async q=>{ const {data,error}=await q; if(error) throw error; return data; };
+const nowIso=()=>new Date().toISOString();
+let SHORT=new Set(); try{ SHORT=new Set(JSON.parse(localStorage.getItem("pli-short")||"[]")); }catch(_){}
+let currentDealId=null;
+const MUSTS=new Set();
+
+/* ---------- formatting ---------- */
+function parseMoney(s){ if(s==null) return null; s=String(s).trim().toLowerCase().replace(/[£€$,\s]/g,""); if(!s) return null;
+  const m=s.match(/^(\d*\.?\d+)(k|m|mm|bn)?$/); if(!m) return null; let v=parseFloat(m[1]);
+  if(m[2]==="k") v*=1e3; if(m[2]==="m"||m[2]==="mm") v*=1e6; if(m[2]==="bn") v*=1e9; return v; }
+function gbp(v){ if(v==null||isNaN(v)) return "—"; if(v>=1e6) return "£"+(+(v/1e6).toFixed(2))+"m"; if(v>=1e3) return "£"+Math.round(v/1e3)+"k"; return "£"+Math.round(v); }
+const pct=v=>v==null||!isFinite(v)?"—":(Math.round(v*10)/10)+"%";
+const today=()=>new Date().toISOString().slice(0,10);
+const fmtDate=s=>{ try{ return new Date(s).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }catch(_){ return s; } };
+const ASSET_LABEL={resi:"residential",hmo:"HMO / multi-unit",semi:"semi-commercial",commercial:"commercial",hotel:"hotel / leisure",care:"care / healthcare",land:"land"};
+const TYPE_LABEL={bridge:"bridging loan",light:"light refurbishment loan",heavy:"heavy refurbishment / conversion loan",dev:"development finance",devexit:"development exit loan",mezz:"mezzanine / stretch senior",land:"land bridge (with planning)",landnp:"land bridge (no planning)",cm:"commercial mortgage",btl:"buy-to-let mortgage"};
+
+/* ---------- deal model ---------- */
+const GDV_TYPES=["light","heavy","dev","mezz"];
+const DEAL_IDS=["d-name","d-type","d-asset","d-purchase","d-works","d-value","d-gdv","d-loan","d-day1","d-charge","d-term","d-geo","d-reg","d-listed","d-fn","d-ftd","d-incomplete"];
+function formState(){ return Object.fromEntries(DEAL_IDS.map(i=>{const el=$("#"+i);return [i,el.type==="checkbox"?el.checked:el.value];})); }
+function setForm(s){ DEAL_IDS.forEach(i=>{ if(!(i in s)) return; const el=$("#"+i); if(el.type==="checkbox") el.checked=!!s[i]; else el.value=s[i]??""; }); }
+function readDeal(){
+  const type=$("#d-type").value, gdvType=GDV_TYPES.includes(type);
+  const purchase=parseMoney($("#d-purchase").value), works=parseMoney($("#d-works").value)||0;
+  const loan=parseMoney($("#d-loan").value), day1=parseMoney($("#d-day1").value);
+  const value=parseMoney($("#d-value").value)||purchase||null, gdv=parseMoney($("#d-gdv").value);
+  const cost=purchase? purchase+works : null;
+  const base = type==="devexit" ? (value||gdv) : value;
+  return {name:$("#d-name").value.trim(), type, gdvType, asset:$("#d-asset").value, purchase, works, loan, day1, value, gdv, cost, base, charge:$("#d-charge").value,
+    term:parseMoney($("#d-term").value), geo:$("#d-geo").value, reg:$("#d-reg").checked, listed:$("#d-listed").checked,
+    fn:$("#d-fn").checked, ftd:$("#d-ftd").checked, incomplete:$("#d-incomplete").checked,
+    ltv: gdvType ? (day1&&value? day1/value*100:null) : (loan&&base? loan/base*100:null),
+    ltgdv: loan&&gdv? loan/gdv*100:null, ltc: loan&&cost? loan/cost*100:null};
+}
+function syncForm(d){
+  $("#w-day1").hidden=!d.gdvType;
+  $("#r-ltv-l").textContent=d.gdvType?"Day-1 LTV":"LTV";
+  $("#ratio-note").textContent=d.gdvType?"Refurb & development: total loan is tested against GDV and cost. Day-1 LTV is tested only if you enter a day-1 advance."
+    : d.type==="devexit" ? "Development exit: loan tested against current value (or GDV if no value)." : "Loan tested against current value (purchase price if no value entered).";
+  const bits=[]; if(d.cost) bits.push("Total cost "+gbp(d.cost)+(d.works?" ("+gbp(d.purchase)+" + "+gbp(d.works)+" works)":""));
+  if(d.loan&&d.cost) bits.push("Equity "+gbp(Math.max(0,d.cost-d.loan)));
+  $("#d-computed").textContent=bits.join(" · ");
+}
+
+/* ---------- matching ---------- */
+const PRODUCT_NEED={
+  bridge:[/bridg/i], light:[/refurb/i,/bridg/i], heavy:[/refurb/i,/conversion/i,/bridg/i], dev:[/development finance/i,/^development$/i,/whole loan/i,/part-complete/i,/\bdev\b/i],
+  devexit:[/exit/i,/bridg/i], mezz:[/mezz/i,/stretch/i,/whole loan/i], land:[/land/i,/bridg/i], landnp:[/land/i,/bridg/i],
+  cm:[/commercial mortgage/i,/commercial term/i,/term loan/i,/investment/i], btl:[/buy.to.let|btl/i]};
+const ASSET_KEY={resi:["resi"],hmo:["hmo","mufb","resi"],semi:["semi"],commercial:["commercial"],hotel:["hotel","commercial"],care:["care","commercial"],land:["land"]};
+const LTV_KEY={resi:"resi",hmo:"resi",semi:"semi",commercial:"commercial",hotel:"commercial",care:"commercial",land:"land"};
+const UKI=["England","Wales","Scotland","Northern Ireland","Ireland"];
+const EUROPE=["Spain","Austria","Portugal","Germany","Italy","Netherlands","Europe","France","Belgium"];
+const isNo=v=>typeof v==="string"&&/^\s*no\b/i.test(v);
+const isYes=v=>typeof v==="string"&&/^\s*yes\b/i.test(v);
+const floor5k=v=>Math.floor(v/5000)*5000;
+
+function geoHit(L,geo){
+  const g=(L.geography||[]).map(x=>x.toLowerCase()); const t=(L.geographyText||"").toLowerCase(); const G=geo.toLowerCase();
+  if(!g.length&&!t) return null;
+  if(g.includes(G)||t.includes(G)) return true;
+  if(geo==="Ireland"&&/republic of ireland|\broi\b/.test(t)) return true;
+  if(UKI.includes(geo)&&geo!=="Ireland"&&/\buk\b|united kingdom|nationwide/.test(t)&&!(geo==="Northern Ireland"&&/excl[^.]*northern/.test(t))) return true;
+  // "international clients/borrowers" describes who they lend to, not where the property is
+  const borrowerSense=/client|borrower|resident|expat|national/.test(t);
+  const intl=(g.includes("international")||/international|global|worldwide/.test(t))&&!borrowerSense;
+  if(EUROPE.includes(geo)&&(/europe|pan.european|\beu\b/.test(t)||intl)) return true;
+  if(geo==="International"&&intl) return true;
+  return false;
+}
+
+function evaluate(L,d){
+  const pass=[], fail=[], unk=[]; let hard=0; const ceil=[]; let day1Ceil=null, termCeil=null, loanFloor=null;
+  const F=(msg,fixable)=>{ fail.push(msg); if(!fixable) hard++; };
+  const st=(L.status||"").toLowerCase();
+  if(/administration|ceased|exited|no longer|not a property lender/.test(st)) F("Status: "+L.status,false);
+  if(L.isPrincipalLender===false) F("Not a principal lender",false);
+  const prods=(L.productTypes||[]).join(" | ");
+  if(!prods) unk.push("Products not published");
+  else if(PRODUCT_NEED[d.type].some(re=>re.test(prods))) pass.push("Offers this facility");
+  else F("Doesn't list this facility",false);
+  if(d.type==="heavy"){ if(isNo(L.heavyRefurb)) F("No heavy refurb",false); else if(isYes(L.heavyRefurb)) pass.push("Heavy refurb"); else unk.push("Heavy refurb?"); }
+  if(d.type==="dev"&&isNo(L.newBuilds)) F("No new builds",false);
+  if(d.type==="land"||d.type==="landnp"||d.asset==="land"){
+    if(isNo(L.lendingOnLand)) F("No land lending",false); else if(isYes(L.lendingOnLand)||(L.assetTypes||[]).includes("land")) pass.push("Lends on land"); else unk.push("Land?");
+    if(d.type==="landnp"){ if(isNo(L.landWithoutPlanning)||/only (if|with) planning/i.test(L.lendingOnLand||"")) F("Land needs planning",false); else if(isYes(L.landWithoutPlanning)) pass.push("Land without planning"); else unk.push("Land w/o planning?"); }
+  }
+  const at=L.assetTypes||[];
+  if(at.length){ if(ASSET_KEY[d.asset].some(k=>at.includes(k))) pass.push("Asset type"); else unk.push("Asset type not listed"); }
+  else unk.push("Asset types not published");
+  // leverage
+  const m=L.maxLTV||{}; const assetCap=m[LTV_KEY[d.asset]];
+  const nums=["resi","semi","commercial","land"].map(x=>m[x]).filter(x=>typeof x==="number"); const anyCap=nums.length?Math.max(...nums):null;
+  if(d.gdvType){
+    if(d.ltv!=null){
+      if(assetCap!=null){ day1Ceil=assetCap/100*d.value; if(d.ltv>assetCap+0.05) F("Day-1 LTV over "+assetCap+"%",true); else pass.push("Day-1 LTV ≤ "+assetCap+"%"); }
+      else unk.push(anyCap!=null?"Day-1 LTV cap for this asset? (general "+anyCap+"%)":"Max LTV?");
+    }
+    if(d.ltgdv==null) unk.push("Enter GDV to test leverage");
+    else if(L.maxLTGDV!=null){ ceil.push(L.maxLTGDV/100*d.gdv); if(d.ltgdv>L.maxLTGDV+0.05) F("LTGDV over "+L.maxLTGDV+"%",true); else pass.push("LTGDV ≤ "+L.maxLTGDV+"%"); }
+    else { const p=assetCap??anyCap; unk.push(p!=null?"No LTGDV published (max LTV "+p+"%)":"Max LTGDV?"); }
+    if(d.ltc!=null){ if(L.maxLTC!=null){ ceil.push(L.maxLTC/100*d.cost); if(d.ltc>L.maxLTC+0.05) F("LTC over "+L.maxLTC+"%",true); else pass.push("LTC ≤ "+L.maxLTC+"%"); } else unk.push("Max LTC?"); }
+  } else if(d.ltv!=null){
+    if(assetCap!=null){ ceil.push(assetCap/100*d.base); if(d.ltv>assetCap+0.05) F("LTV over "+assetCap+"%",true); else pass.push("LTV ≤ "+assetCap+"%"); }
+    else unk.push(anyCap!=null?"LTV cap for this asset? (general "+anyCap+"%)":"Max LTV?");
+  }
+  if(d.loan){
+    if(L.minLoan&&d.loan<L.minLoan){ F("Below min loan "+gbp(L.minLoan),true); loanFloor=L.minLoan; }
+    else if(L.maxLoan&&d.loan>L.maxLoan){ F("Above max loan "+gbp(L.maxLoan),true); }
+    else if(L.minLoan||L.maxLoan) pass.push("Loan size"); else unk.push("Loan size limits?");
+    if(L.maxLoan) ceil.push(L.maxLoan);
+  }
+  if(d.term){ if(L.maxTermMonths&&d.term>L.maxTermMonths&&!["cm","btl"].includes(d.type)){ F("Term over "+L.maxTermMonths+"m",true); termCeil=L.maxTermMonths; }
+    else if(L.minTermMonths&&d.term<L.minTermMonths) F("Term under "+L.minTermMonths+"m",false); }
+  const ch=(L.charges||[]).join(" ");
+  if(d.charge==="2nd"){ if(/2nd|second/i.test(ch)) pass.push("2nd charge"); else if(ch) F("1st charge only",false); else unk.push("2nd charge?"); }
+  const gh=geoHit(L,d.geo);
+  const overseas=!UKI.includes(d.geo); let capCheck=false;
+  if(gh===null){ unk.push(overseas?"Lends in "+d.geo+"? (not published)":"Geography?"); if(overseas) capCheck=true; }
+  else if(gh) pass.push("Lends in "+d.geo); else F("Doesn't lend in "+d.geo,false);
+  if(d.reg){ if(isNo(L.regulatedBridging)||/^\s*no/i.test(L.fcaRegulated||"")) F("Unregulated only",false); else if(/yes|regulated/i.test((L.regulatedBridging||"")+" "+(L.fcaRegulated||""))) pass.push("Regulated lending"); else unk.push("Regulated?"); }
+  if(d.listed){ if(isNo(L.listed)) F("No listed buildings",false); else if(isYes(L.listed)) pass.push("Listed buildings"); else unk.push(L.listed?"Listed: "+L.listed.slice(0,50):"Listed?"); }
+  if(d.fn){ if(isNo(L.foreignNationals)) F("No foreign nationals",false); else if(isYes(L.foreignNationals)||/foreign national/i.test(L.landlordTypes||"")) pass.push("Foreign nationals"); else unk.push("Foreign nationals?"); }
+  if(d.ftd){ if(isNo(L.firstTimeDevelopers)) F("No first-time developers",false); else if(isYes(L.firstTimeDevelopers)) pass.push("First-time developers"); else unk.push("First-time developers?"); }
+  // near-miss fix
+  let fix=null;
+  if(fail.length&&!hard){
+    const parts=[]; const maxL=ceil.length?Math.min(...ceil):null;
+    if(d.loan&&maxL!=null&&d.loan>maxL+1){ if(loanFloor&&maxL<loanFloor) hard++; else parts.push("Fits at loan ≤ "+gbp(floor5k(maxL))+(d.cost?" (equity "+gbp(d.cost-floor5k(maxL))+")":"")); }
+    if(loanFloor&&!(maxL!=null&&maxL<loanFloor)) parts.push("Needs loan ≥ "+gbp(loanFloor));
+    if(d.gdvType&&day1Ceil!=null&&d.day1>day1Ceil+1) parts.push("Day-1 advance ≤ "+gbp(floor5k(day1Ceil)));
+    if(termCeil) parts.push("Term ≤ "+termCeil+" months");
+    if(!hard&&parts.length) fix=parts.join(" · "); else hard=hard||1;
+  }
+  const band = !fail.length ? (unk.length<=2&&pass.length>=3&&!capCheck?"fit":"check") : (fix?"near":"out");
+  return {pass,fail,unk,band,fix,score:pass.length*3-unk.length};
+}
+
+/* ---------- history & verification ---------- */
+const PLACED=["Terms offered","Credit approved","Completed"];
+function history(id){ const out=[]; DEALS.forEach(D=>{ const a=(D.approaches||{})[id]; if(a) out.push({deal:D.name,dealId:D.id,...a}); }); return out; }
+function placedCount(id){ return history(id).filter(h=>PLACED.includes(h.status)).length; }
+
+/* ---------- must-have chips ---------- */
+const MUST_DEFS=[
+  ["avm","AVM / desktop valuation",L=>/avm|desktop|no (formal )?valuation|internal valuation/i.test((L.valuationTypes||"")+" "+(L.specialise||""))],
+  ["nofee","No upfront fees",L=>isNo(L.upfrontFees)],
+  ["noerc","No ERCs",L=>isNo(L.erc)],
+  ["portal","Broker portal",L=>isYes(L.brokerPortal)],
+  ["bdm","Named BDM contact",L=>(L.team||[]).some(t=>t.phone||t.email)],
+  ["ver","Verified by us",L=>!!VERIFIED[L.id]],
+  ["hist","Dealt with before",L=>history(L.id).length>0]];
+$("#musts").innerHTML=`<span class="lbl" style="align-self:center">Must have:</span>`+MUST_DEFS.map(([k,l])=>`<button type="button" class="tog" data-must="${k}" aria-pressed="false">${l}</button>`).join("");
+$("#musts").addEventListener("click",e=>{ const b=e.target.closest("[data-must]"); if(!b) return; const k=b.dataset.must; MUSTS.has(k)?MUSTS.delete(k):MUSTS.add(k); b.setAttribute("aria-pressed",MUSTS.has(k)); renderMatch(); });
+
+/* ---------- rows ---------- */
+function maxLev(L){ const m=L.maxLTV||{}; return Math.max(L.maxLTGDV||0,...["resi","semi","commercial"].map(k=>m[k]||0)); }
+function rowHTML(L,ev,selectable){
+  const facts=[];
+  if(L.minRatePcm) facts.push(`from <b>${L.minRatePcm}%</b> pm`);
+  const m=L.maxLTV||{}; const nums=["resi","semi","commercial"].map(k=>m[k]).filter(x=>typeof x==="number");
+  if(nums.length) facts.push(`LTV <b>${Math.max(...nums)}%</b>`);
+  if(L.maxLTGDV) facts.push(`LTGDV <b>${L.maxLTGDV}%</b>`);
+  if(L.minLoan||L.maxLoan) facts.push(`<b>${gbp(L.minLoan)}–${gbp(L.maxLoan)}</b>`);
+  const lead=(L.team||[])[0]; const h=history(L.id); const pc=placedCount(L.id);
+  const badges=[];
+  if(VERIFIED[L.id]) badges.push(`<span class="pill ok" title="Criteria confirmed by us">✓ ${esc(fmtDate(VERIFIED[L.id].date))}</span>`);
+  if(h.length) badges.push(`<span class="pill muted">${pc?pc+" placed":h.length+" approached"}</span>`);
+  if(L.profile!=="Full") badges.push(`<span class="pill muted">${esc(L.profile)}</span>`);
+  if(NOTES[L.id]?.text) badges.push(`<span class="pill muted">Notes</span>`);
+  let chips=[];
+  if(ev){
+    if(ev.fix) chips.push(`<span class="chip fix">${esc(ev.fix)}</span>`);
+    chips.push(...ev.fail.map(t=>`<span class="chip fail">${esc(t)}</span>`), ...ev.unk.slice(0,4).map(t=>`<span class="chip unk">${esc(t)}</span>`));
+    if(ev.band!=="out"&&ev.band!=="near") chips.push(...ev.pass.slice(0,3).map(t=>`<span class="chip">${esc(t)}</span>`));
+  }
+  const band=ev?ev.band:"none";
+  return `<div class="row${selectable?"":" nosel"}" tabindex="0" role="button" data-id="${esc(L.id)}">
+    <div class="stripe ${band}"></div>
+    ${selectable?`<input type="checkbox" class="pick" data-id="${esc(L.id)}" aria-label="Shortlist ${esc(L.name)}" ${SHORT.has(L.id)?"checked":""}>`:""}
+    <div class="name">${esc(L.name)}<small>${esc(L.lenderType||"")}${lead?" · "+esc(lead.name):""}</small></div>
+    <div class="facts">${facts.map(f=>"<span>"+f+"</span>").join("")||'<span>Criteria not yet captured</span>'}</div>
+    <div class="badges">${badges.join("")}</div>
+    ${chips.length?`<div class="reasons">${chips.join("")}</div>`:""}
+  </div>`;
+}
+
+/* ---------- match view ---------- */
+function sorter(mode){
+  const r=x=>x.L.minRatePcm||99;
+  return (a,b)=>{
+    if(mode==="rate") return r(a)-r(b)||b.ev.score-a.ev.score;
+    if(mode==="lev") return maxLev(b.L)-maxLev(a.L)||b.ev.score-a.ev.score;
+    if(mode==="size") return (b.L.maxLoan||0)-(a.L.maxLoan||0)||b.ev.score-a.ev.score;
+    if(mode==="hist") return placedCount(b.L.id)-placedCount(a.L.id)||history(b.L.id).length-history(a.L.id).length||b.ev.score-a.ev.score;
+    if(mode==="ver") return (VERIFIED[b.L.id]?1:0)-(VERIFIED[a.L.id]?1:0)||b.ev.score-a.ev.score;
+    return b.ev.score-a.ev.score+((VERIFIED[b.L.id]?1:0)-(VERIFIED[a.L.id]?1:0))*0.5||r(a)-r(b)||a.L.name.localeCompare(b.L.name);
+  };
+}
+function renderMatch(){
+  const d=readDeal(); syncForm(d);
+  $("#r-ltv").textContent=pct(d.ltv); $("#r-ltgdv").textContent=pct(d.ltgdv); $("#r-ltc").textContent=pct(d.ltc);
+  const box=$("#results");
+  if(!LENDERS.length){ box.innerHTML=emptyMsg(); return; }
+  const musts=MUST_DEFS.filter(([k])=>MUSTS.has(k));
+  const pool=LENDERS.filter(L=>(d.incomplete||L.profile!=="Contacts only")&&musts.every(([,,f])=>f(L)));
+  const evs=pool.map(L=>({L,ev:evaluate(L,d)}));
+  const s=sorter($("#sort").value);
+  const by=b=>evs.filter(x=>x.ev.band===b).sort(s);
+  const fit=by("fit"), check=by("check"), near=by("near"), out=by("out");
+  box.innerHTML=`<div class="summary"><span class="pill fit">${fit.length} fit</span><span class="pill check">${check.length} to check</span><span class="pill near">${near.length} near misses</span><span class="pill out">${out.length} ruled out</span>${musts.length?`<span class="small">Filtered to ${musts.map(m=>m[1]).join(", ")}</span>`:""}</div>
+   ${grp("Fits the criteria","Inside every published limit",fit)}
+   ${grp("Worth a call","Nothing rules them out, but some criteria aren't published",check)}
+   ${grp("Near misses","Would fit with a change to the loan or term",near)}
+   <details class="fold"><summary>Ruled out (${out.length})</summary>${out.length?`<div class="list">${out.map(x=>rowHTML(x.L,x.ev,true)).join("")}</div>`:""}</details>`;
+}
+function grp(t,s,arr){ return `<div class="group"><h3>${t}<small>${s}</small></h3>${arr.length?`<div class="list">${arr.map(x=>rowHTML(x.L,x.ev,true)).join("")}</div>`:`<div class="empty">None on current inputs.</div>`}</div>`; }
+function emptyMsg(){ return db===null? `<div class="empty">Sign in to load the lenders.</div>` : `<div class="empty">No lenders in the database yet. Add one from the “Add lender” tab.</div>`; }
+
+/* ---------- directory with synonyms + fuzzy ---------- */
+const SYN={pub:["pub","public house","sui generis","pubs"],care:["care","healthcare","c2","nursing","care home"],student:["pbsa","student"],pbsa:["pbsa","student"],
+  hotel:["hotel","hospitality","c1","leisure"],auction:["auction"],vat:["vat"],hmo:["hmo","mufb","multi-unit"],land:["land"],second:["2nd","second"],"2nd":["2nd","second"],
+  regulated:["regulated"],foreign:["foreign national","expat","overseas","non-uk"],expat:["expat","foreign national"],dev:["development"],development:["development"],refurb:["refurb","conversion"],
+  mezz:["mezz","mezzanine","stretch"],mezzanine:["mezz","mezzanine"],btl:["buy-to-let","btl"],commercial:["commercial"],semi:["semi-commercial","semi","mixed use","mixed-use"],
+  spain:["spain","europe","international"],austria:["austria","europe","international"],europe:["europe","international","spain","austria","ireland"],ireland:["ireland"],scotland:["scotland"],
+  exit:["exit"],bank:["bank"],family:["family office"],office:["office"],retail:["retail"],industrial:["industrial"],avm:["avm","desktop"]};
+function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const dp=Array.from({length:a.length+1},(_,i)=>[i]); for(let j=1;j<=b.length;j++) dp[0][j]=j;
+  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++) dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); return dp[a.length][b.length]; }
+function hayOf(L){ return [L.name,L.legalName,L.lenderType,L.sectors,L.specialise,L.whoWeAre,L.geographyText,(L.geography||[]).join(" "),(L.assetTypes||[]).join(" "),(L.charges||[]).join(" "),
+  (L.team||[]).map(t=>t.name+" "+(t.role||"")).join(" "),(L.productTypes||[]).join(" "),L.valuationTypes,L.landlordTypes,L.regulatedBridging?"regulated":"",NOTES[L.id]?.text].join(" ").toLowerCase(); }
+function matchQ(L,q){
+  const hay=hayOf(L); const words=hay.split(/[^a-z0-9]+/).filter(w=>w.length>3);
+  return q.split(/\s+/).filter(Boolean).every(tok=>{
+    const alts=SYN[tok]||[tok];
+    if(alts.some(a=>hay.includes(a))) return true;
+    if(tok.length>=5){ const tol=tok.length>=8?2:1; const compact=L.name.toLowerCase().replace(/[^a-z0-9]/g,"");
+      return words.some(w=>lev(tok,w)<=tol)||lev(tok,compact.slice(0,tok.length))<=tol; }
+    return false;
+  });
+}
+const QUICK=["bridging","development","refurb","land","2nd charge","regulated","hotel","care","hmo","auction","mezz","scotland","europe","btl","commercial mortgage","family office"];
+$("#quick").innerHTML=QUICK.map(q=>`<button type="button" class="tog" data-q="${q}">${q}</button>`).join("");
+$("#quick").addEventListener("click",e=>{ const b=e.target.closest("[data-q]"); if(!b) return; $("#q").value=$("#q").value===b.dataset.q?"":b.dataset.q; renderDir(); });
+function renderDir(){
+  const q=$("#q").value.trim().toLowerCase(), p=$("#f-prod").value, s=$("#f-src").value, pr=$("#f-prof").value;
+  document.querySelectorAll("#quick .tog").forEach(b=>b.setAttribute("aria-pressed",b.dataset.q===q));
+  const rows=LENDERS.filter(L=>(!p||(L.productTypes||[]).includes(p))&&(!s||(L.origin||[]).includes(s))&&(!pr||L.profile===pr)&&(!q||matchQ(L,q))).sort((a,b)=>a.name.localeCompare(b.name));
+  $("#dir-count").textContent=`${rows.length} of ${LENDERS.length} lenders`;
+  $("#dir").innerHTML=rows.length? rows.map(L=>rowHTML(L,null,true)).join("") : (LENDERS.length?`<div class="empty">No lenders match that search.</div>`:emptyMsg());
+}
+function fillFilters(){
+  const prods=new Map(), srcs=new Set();
+  LENDERS.forEach(L=>{(L.productTypes||[]).forEach(p=>prods.set(p,(prods.get(p)||0)+1));(L.origin||[]).forEach(o=>srcs.add(o));});
+  const kp=$("#f-prod").value, ks=$("#f-src").value;
+  $("#f-prod").innerHTML=`<option value="">All products</option>`+[...prods].filter(([,n])=>n>1).sort((a,b)=>b[1]-a[1]).map(([p,n])=>`<option value="${esc(p)}">${esc(p)} (${n})</option>`).join("");
+  $("#f-src").innerHTML=`<option value="">All sources</option>`+[...srcs].sort().map(x=>`<option>${esc(x)}</option>`).join("");
+  $("#f-prod").value=kp; $("#f-src").value=ks;
+}
+
+/* ---------- criteria rows (profile + compare) ---------- */
+const val=v=>v==null||v===""||(Array.isArray(v)&&!v.length)?null:(Array.isArray(v)?v.join(", "):String(v));
+function ltvText(m){ if(!m) return null; const parts=[]; ["resi","semi","commercial","land"].forEach(k=>{ if(m[k]!=null) parts.push(({resi:"Resi",semi:"Semi-commercial",commercial:"Commercial",land:"Land"})[k]+" "+m[k]+"%"); });
+  return [parts.join(" · "), m.text].filter(Boolean).join(" — ")||null; }
+function rangeTxt(a,b,f){ if(a==null&&b==null) return null; return (a!=null?f(a):"—")+" – "+(b!=null?f(b):"—"); }
+function critList(L){ return [
+ ["Product types",val(L.productTypes)],["Charges",val(L.charges)],["Funding model",L.fundingModel],["FCA regulated",L.fcaRegulated],
+ ["Interest range",L.interestRange||(L.minRatePcm?`From ${L.minRatePcm}% pm`:null)],["Fixed / variable interest",L.fixedVariable],["Treatment of interest",L.interestTreatment],
+ ["Sectors",L.sectors],["Asset types",val(L.assetTypes)],["Max LTV",ltvText(L.maxLTV)],["Max LTGDV",L.maxLTGDV!=null?L.maxLTGDV+"%":null],["Max LTC",L.maxLTC!=null?L.maxLTC+"%":null],
+ ["Min & max loan term",[rangeTxt(L.minTermMonths,L.maxTermMonths,x=>x+" months"),L.termText].filter(Boolean).join(" — ")||null],
+ ["Min & max loan size",[rangeTxt(L.minLoan,L.maxLoan,gbp),L.loanText].filter(Boolean).join(" — ")||null],
+ ["Min property value",L.minPropertyValue],["Valuation retypes",L.valuationRetypes],["Rental calculations & exposure",L.rentalCalc],
+ ["Geographical lending areas",L.geographyText||val(L.geography)],["Types of valuation accepted",L.valuationTypes],
+ ["New builds",L.newBuilds],["Light refurb",L.lightRefurb],["Heavy refurb",L.heavyRefurb],["Grade listed buildings",L.listed],["Green / sustainable product",L.green],
+ ["Planning permission needed",L.planningNeeded],["Land without planning",L.landWithoutPlanning],["Commission rate",L.commission],["Associations / charters",L.associations],
+ ["Types of landlords accepted",L.landlordTypes],["Upfront fees",L.upfrontFees],["Broker portal",L.brokerPortal],["Early redemption charges",L.erc],
+ ["Investment",L.investment],["Owner occupied",L.ownerOccupied],["Regulated bridging",L.regulatedBridging],["Foreign nationals",L.foreignNationals],
+ ["First-time developers",L.firstTimeDevelopers],["Limited companies",L.limitedCompany],["Electronic signatures accepted",L.eSignatures],["Lending on land",L.lendingOnLand]]; }
+const copyBtn=t=>t?`<button class="copy" data-copy="${esc(t)}" aria-label="Copy">copy</button>`:"";
+
+/* ---------- drawer ---------- */
+let onKey=null;
+function openDrawer(html,wide){
+  $("#drawer-root").innerHTML=`<div class="scrim" id="scrim"></div><aside class="drawer${wide?" wide":""}" role="dialog" aria-modal="true">${html}</aside>`;
+  onKey=e=>{ if(e.key==="Escape") closeDrawer(); }; document.addEventListener("keydown",onKey);
+  $("#scrim").onclick=closeDrawer; const c=$("#close"); if(c){ c.onclick=closeDrawer; c.focus(); }
+}
+function closeDrawer(){ $("#drawer-root").innerHTML=""; if(onKey) document.removeEventListener("keydown",onKey); }
+
+function openLender(id){
+  const L=LENDERS.find(x=>x.id===id); if(!L) return;
+  const st=L.status||"Active"; const bad=/administration|ceased|exited|not a principal|no longer|not a property|unverified|no 20/i.test(st)||L.isPrincipalLender===false;
+  const team=(L.team||[]).map(t=>`<div class="person"><b>${esc(t.name)}</b>${t.role?`<span class="role">${esc(t.role)}</span>`:""}${t.phone?`<span class="ct">${esc(t.phone)}${copyBtn(t.phone)}</span>`:""}${t.email?`<span class="ct">${esc(t.email)}${copyBtn(t.email)}</span>`:""}${t.linkedin?`<a class="small" href="${esc(t.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`:""}</div>`).join("");
+  const emails=(L.emails||[]).map(e=>`<div><span class="lbl">${esc(e.label||"Email")}</span><br><span class="ct">${esc(e.email)} ${copyBtn(e.email)}</span></div>`).join("");
+  const src=(L.sources||[]).map(s=>/^https?:/.test(s)?`<li><a href="${esc(s)}" target="_blank" rel="noopener">${esc(s.replace(/^https?:\/\/(www\.)?/,"").slice(0,80))}</a></li>`:`<li>${esc(s)}</li>`).join("");
+  const n=NOTES[L.id]||{}; const v=VERIFIED[L.id]; const h=history(L.id);
+  openDrawer(`
+   <div class="dhead"><div><h2>${esc(L.name)}</h2><div class="small">${esc([L.lenderType,L.legalName].filter(Boolean).join(" · "))}</div>
+     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><span class="pill ${bad?"out":"fit"}">${esc(st)}</span><span class="pill muted">Profile: ${esc(L.profile)}</span>${v?`<span class="pill ok">✓ Verified ${esc(fmtDate(v.date))}</span>`:""}</div></div>
+     <div style="display:flex;gap:6px"><button class="btn small" id="pick1">${SHORT.has(L.id)?"Remove from shortlist":"Add to shortlist"}</button><button class="btn small" id="close">Close</button></div></div>
+   ${L.needsResearch?`<div class="info dsec">Criteria for this lender are incomplete. Contacts below are usable now.</div>`:""}
+   <div class="dsec"><h4>Contact</h4><div class="contact">
+     ${L.website?`<div><span class="lbl">Website</span><br><a href="${esc(L.website)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc(L.website.replace(/^https?:\/\/(www\.)?/,""))}</a></div>`:""}
+     ${L.phone?`<div><span class="lbl">Phone</span><br><span class="ct">${esc(L.phone)} ${copyBtn(L.phone)}</span></div>`:""}
+     ${L.address?`<div><span class="lbl">Address</span><br>${esc(L.address)}</div>`:""}${emails}
+     ${!L.website&&!L.phone&&!L.address&&!emails?`<div class="small">No general contact details captured.</div>`:""}</div></div>
+   ${L.whoWeAre?`<div class="dsec"><h4>Who they are</h4><p>${esc(L.whoWeAre)}</p></div>`:""}
+   ${L.ethos?`<div class="dsec"><h4>Ethos</h4><p>${esc(L.ethos)}</p></div>`:""}
+   ${L.specialise?`<div class="dsec"><h4>What they specialise in</h4><p>${esc(L.specialise)}</p></div>`:""}
+   <div class="dsec"><h4>Meet the team</h4>${team?`<div class="team">${team}</div>`:`<p class="small">No named contacts yet.</p>`}</div>
+   <div class="dsec"><h4>Our deal history</h4>${h.length?`<table class="trk"><thead><tr><th>Deal</th><th>Status</th><th>Terms</th><th>Date</th></tr></thead><tbody>${h.map(x=>`<tr><td>${esc(x.deal)}</td><td>${esc(x.status)}</td><td>${esc(x.terms||"")}</td><td>${esc(x.date?fmtDate(x.date):"")}</td></tr>`).join("")}</tbody></table>`:`<p class="small">Not approached on any saved deal yet.</p>`}</div>
+   <div class="dsec notes"><h4>Our notes</h4>
+     <textarea id="note-text" aria-label="Notes" placeholder="Deals placed, relationship, BDM rapport, pricing seen…">${esc(n.text||"")}</textarea>
+     <div style="display:flex;gap:10px;align-items:center;margin-top:6px"><button class="btn primary small" id="note-save">Save notes</button><span class="small" id="note-msg" role="status">${n.updatedAt?"Last saved "+esc(fmtDate(n.updatedAt)):""}</span></div></div>
+   <div class="dsec"><h4>Criteria check</h4>
+     <p class="small" style="margin-bottom:6px">${v?`Confirmed with the lender on ${esc(fmtDate(v.date))}${v.note?" — "+esc(v.note):""}.`:"Not yet confirmed with the lender."}</p>
+     <div style="display:flex;gap:6px;flex-wrap:wrap"><input type="text" id="ver-note" placeholder="Who confirmed, e.g. BDM call with Steve" style="flex:1 1 220px"><button class="btn small" id="ver-save">Mark verified today</button></div>
+     <span class="small" id="ver-msg" role="status"></span></div>
+   <div class="dsec"><h4>Criteria</h4><div class="scrollx"><table class="crit"><tbody>${critList(L).map(([k,x])=>`<tr><th>${k}</th>${x?`<td>${esc(x)}</td>`:`<td class="na">Not captured</td>`}</tr>`).join("")}</tbody></table></div></div>
+   <div class="dsec src"><h4>Sources</h4><p class="small">On file from: ${esc((L.origin||[]).join(", "))}. Captured ${esc(L.updated||"")}. Rates and criteria change — confirm before quoting.</p><ul class="small">${src}</ul></div>`);
+  $("#pick1").onclick=()=>{ togglePick(L.id); $("#pick1").textContent=SHORT.has(L.id)?"Remove from shortlist":"Add to shortlist"; };
+  $("#note-save").onclick=()=>saveNote(L.id);
+  $("#ver-save").onclick=async()=>{ const msg=$("#ver-msg"); if(!db){msg.textContent="Database not available.";return;}
+    msg.textContent="Saving…"; try{ await must(sb.from("verified").upsert({lender_id:L.id,date:today(),note:$("#ver-note").value.trim(),verified_by:USER_EMAIL})); await loadVerified(); msg.textContent="Marked verified today."; }catch(e){ msg.textContent=errText(e); } };
+}
+function errText(e){ return e&&(e.code==="42501"||/row-level security/i.test(e.message||""))?"You don't have permission to save this.":"Couldn't save: "+(e&&e.message||"unknown error"); }
+async function saveNote(id){
+  const msg=$("#note-msg"); const text=$("#note-text").value;
+  if(!db){ msg.textContent="Database not available."; return; }
+  msg.textContent="Saving…";
+  try{ await must(sb.from("notes").upsert({lender_id:id,text,updated_at:nowIso(),updated_by:USER_EMAIL})); await loadNotes(); msg.textContent="Saved"; }catch(e){ msg.textContent=errText(e); }
+}
+
+/* ---------- shortlist ---------- */
+function persistShort(){ try{ localStorage.setItem("pli-short",JSON.stringify([...SHORT])); }catch(_){} }
+function togglePick(id){ SHORT.has(id)?SHORT.delete(id):SHORT.add(id); persistShort(); renderTray(); document.querySelectorAll(`.pick[data-id="${CSS.escape(id)}"]`).forEach(c=>c.checked=SHORT.has(id)); }
+function shortLenders(){ return [...SHORT].map(id=>LENDERS.find(L=>L.id===id)).filter(Boolean); }
+function renderTray(){ const n=shortLenders().length; $("#tray").hidden=!n; $("#tray-n").textContent=n+" shortlisted"; }
+$("#t-clear").onclick=()=>{ SHORT.clear(); persistShort(); renderTray(); document.querySelectorAll(".pick").forEach(c=>c.checked=false); };
+$("#t-cmp").onclick=()=>{
+  const Ls=shortLenders(); const d=readDeal(); const evs=Ls.map(L=>evaluate(L,d));
+  const rows=[["Deal fit",Ls.map((L,i)=>({fit:"Fits",check:"Worth a call",near:"Near miss — "+(evs[i].fix||""),out:"Ruled out — "+evs[i].fail.join("; ")})[evs[i].band])],
+    ["Key contact",Ls.map(L=>{const t=(L.team||[]).find(t=>t.phone||t.email)||(L.team||[])[0]; return t?[t.name,t.role,t.phone,t.email].filter(Boolean).join(" · "):null;})],
+    ...critList(Ls[0]||{}).map(([k],idx)=>[k,Ls.map(L=>critList(L)[idx][1])])];
+  openDrawer(`<div class="dhead"><div><h2>Compare ${Ls.length} lenders</h2><div class="small">${esc(dealLine(d))}</div></div><button class="btn small" id="close">Close</button></div>
+    <div class="scrollx"><table class="cmp"><thead><tr><th></th>${Ls.map(L=>`<th>${esc(L.name)}</th>`).join("")}</tr></thead><tbody>
+    ${rows.map(([k,vals])=>`<tr><th>${esc(k)}</th>${vals.map(v=>v?`<td>${esc(v)}</td>`:`<td class="na">—</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,true);
+};
+function contactBlock(L){
+  const lines=[L.name.toUpperCase()]; if(L.phone) lines.push("Main: "+L.phone); (L.emails||[]).forEach(e=>lines.push((e.label||"Email")+": "+e.email));
+  (L.team||[]).forEach(t=>lines.push("- "+[t.name,t.role,t.phone,t.email].filter(Boolean).join(" | ")));
+  if(L.website) lines.push(L.website); return lines.join("\n");
+}
+$("#t-ct").onclick=()=>{
+  const Ls=shortLenders(); const all=Ls.map(contactBlock).join("\n\n");
+  openDrawer(`<div class="dhead"><div><h2>Contacts</h2><div class="small">${Ls.length} lenders</div></div><div style="display:flex;gap:6px"><button class="btn small primary" data-copy="${esc(all)}">Copy all</button><button class="btn small" id="close">Close</button></div></div>
+   ${Ls.map(L=>`<div class="mail" style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(L.name)}</b><button class="copy" data-copy="${esc(contactBlock(L))}">copy</button></div><pre>${esc(contactBlock(L))}</pre></div>`).join("")}`);
+};
+function dealLine(d){
+  const parts=[]; if(d.name) parts.push(d.name);
+  parts.push(gbp(d.loan)+" "+TYPE_LABEL[d.type]+" on "+ASSET_LABEL[d.asset]+" in "+(d.geo==="International"?"outside Europe":d.geo==="Europe"?"Europe":d.geo));
+  return parts.join(" — ");
+}
+function dealSummary(d){
+  const L=[];
+  L.push("Facility: "+TYPE_LABEL[d.type]+", "+d.charge+" charge"+(d.term?", "+d.term+" months":""));
+  L.push("Security: "+ASSET_LABEL[d.asset]+" property, "+d.geo);
+  if(d.purchase) L.push("Purchase price / current basis: "+gbp(d.purchase)+(d.works?" plus works of "+gbp(d.works):""));
+  if(d.value) L.push("Current value: "+gbp(d.value));
+  if(d.gdv) L.push("GDV / end value: "+gbp(d.gdv));
+  L.push("Loan requested: "+gbp(d.loan)+(d.day1?" (day-1 advance "+gbp(d.day1)+")":""));
+  const r=[]; if(d.ltv!=null) r.push((d.gdvType?"day-1 LTV ":"LTV ")+pct(d.ltv)); if(d.ltgdv!=null) r.push("LTGDV "+pct(d.ltgdv)); if(d.ltc!=null) r.push("LTC "+pct(d.ltc));
+  if(r.length) L.push("Leverage: "+r.join(", "));
+  const f=[]; if(d.reg) f.push("regulated"); if(d.listed) f.push("listed building"); if(d.fn) f.push("overseas/foreign national borrower"); if(d.ftd) f.push("first-time developer");
+  if(f.length) L.push("Points to note: "+f.join(", "));
+  return L.join("\n");
+}
+function bestContact(L){ const t=(L.team||[]).find(t=>t.email); return t?{name:t.name,email:t.email}:{name:null,email:(L.emails||[])[0]?.email||null}; }
+$("#t-mail").onclick=()=>{
+  const Ls=shortLenders(); const d=readDeal(); const sum=dealSummary(d);
+  const mails=Ls.map(L=>{ const c=bestContact(L); const first=c.name?c.name.split(/\s+/)[0]:"team";
+    const subj="Enquiry: "+gbp(d.loan)+" "+TYPE_LABEL[d.type]+" — "+ASSET_LABEL[d.asset]+", "+d.geo;
+    const body=`Hi ${first},\n\nI'd like to run a ${TYPE_LABEL[d.type]} past you for ${L.name}'s appetite.\n\n${sum}\n\nCould you let me know if this is something you'd consider and give indicative terms? I can send the full pack (valuation, schedule of works, borrower profile) on request.\n\nKind regards,\n${USER_NAME||""}\nPhoenix London and Regional Limited`;
+    return {L,c,subj,body}; });
+  openDrawer(`<div class="dhead"><div><h2>Enquiry emails</h2><div class="small">One draft per lender — copy into your email.</div></div><button class="btn small" id="close">Close</button></div>
+   ${mails.map(m=>`<div class="mail" style="margin-bottom:12px"><b>${esc(m.L.name)}</b>
+     <div class="small">To: ${m.c.email?`<span class="ct" style="display:inline-flex">${esc((m.c.name?m.c.name+" — ":"")+m.c.email)} ${copyBtn(m.c.email)}</span>`:"No email on file — use the phone contact"}</div>
+     <div class="small">Subject: ${esc(m.subj)} ${copyBtn(m.subj)}</div>
+     <pre>${esc(m.body)}</pre><div><button class="btn small" data-copy="${esc(m.body)}">Copy email body</button></div></div>`).join("")}`);
+};
+$("#t-log").onclick=async()=>{
+  const msg=$("#t-msg"); const d=readDeal();
+  if(!d.name){ msg.textContent="Give the deal a name first (top of the deal sheet)."; $("#d-name").focus(); return; }
+  if(!db){ msg.textContent="Database not available."; return; }
+  msg.textContent="Logging…";
+  try{ const id=await saveDeal(); const D=DEALS.find(x=>x.id===id)||{approaches:{}}; const have=D.approaches||{};
+    const rows=shortLenders().filter(L=>!have[L.id]).map(L=>({deal_id:id,lender_id:L.id,lender_name:L.name,status:"Approached",terms:"",date:today()}));
+    if(rows.length) await must(sb.from("deal_approaches").upsert(rows,{onConflict:"deal_id,lender_id",ignoreDuplicates:true}));
+    await touchDeal(id); await loadDeals();
+    msg.textContent="Logged "+shortLenders().length+" lenders on "+d.name+"."; }
+  catch(e){ msg.textContent=errText(e); }
+};
+
+/* ---------- deals ---------- */
+const STATUSES=["Approached","Awaiting terms","Terms offered","Credit approved","Completed","Declined","Withdrawn"];
+function dealIdFor(name){ return name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,80)||"deal"; }
+async function saveDeal(){
+  const st=formState(); const name=st["d-name"].trim(); const id=currentDealId&&DEALS.find(x=>x.id===currentDealId&&x.name===name)?currentDealId:dealIdFor(name);
+  await must(sb.from("deals").upsert({id,name,form:st,updated_at:nowIso()},{onConflict:"id"}));
+  currentDealId=id; await loadDeals(); return id;
+}
+function touchDeal(id){ return must(sb.from("deals").update({updated_at:nowIso()}).eq("id",id)); }
+$("#d-save").onclick=async()=>{ const msg=$("#d-save-msg"); if(!$("#d-name").value.trim()){ msg.textContent="Enter a deal name to save."; return; }
+  if(!db){ msg.textContent="Database not available."; return; } msg.textContent="Saving…";
+  try{ await saveDeal(); msg.textContent="Saved."; }catch(e){ msg.textContent=errText(e); } };
+$("#d-load").onchange=()=>{ const D=DEALS.find(x=>x.id===$("#d-load").value); if(!D) return; setForm(D.form||{}); currentDealId=D.id; $("#d-load").value=""; $("#d-save-msg").textContent="Loaded "+D.name+"."; renderMatch(); saveLocal(); };
+function fillDealSelect(){ $("#d-load").innerHTML=`<option value="">Load a saved deal…</option>`+DEALS.map(D=>`<option value="${esc(D.id)}">${esc(D.name)}</option>`).join(""); }
+function renderDeals(){
+  const box=$("#deals");
+  if(!DEALS.length){ box.innerHTML=`<div class="empty">No saved deals yet. Name a deal on the deal sheet and press Save, or shortlist lenders and use “Log as approached”.</div>`; return; }
+  box.innerHTML=DEALS.map(D=>{ const ap=Object.entries(D.approaches||{}); const f=D.form||{};
+    const line=[f["d-loan"]&&("Loan "+f["d-loan"]),f["d-type"]&&TYPE_LABEL[f["d-type"]],f["d-asset"]&&ASSET_LABEL[f["d-asset"]],f["d-geo"]].filter(Boolean).join(" · ");
+    return `<div class="card" data-deal="${esc(D.id)}">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><h3>${esc(D.name)}</h3>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn small primary" data-act="load">Open in matcher</button><button class="btn small danger" data-act="del">Delete</button></div></div>
+      <div class="small">${esc(line)}${D.updatedAt?" · updated "+esc(fmtDate(D.updatedAt)):""}</div>
+      ${ap.length?`<div class="scrollx"><table class="trk"><thead><tr><th>Lender</th><th>Status</th><th>Terms / feedback</th><th>Date</th><th></th></tr></thead><tbody>
+        ${ap.map(([lid,a])=>{ const L=LENDERS.find(x=>x.id===lid); return `<tr data-lid="${esc(lid)}"><td><a href="#" data-open="${esc(lid)}" style="color:var(--accent)">${esc(L?L.name:(a.name||lid))}</a></td>
+          <td><select data-f="status" aria-label="Status">${STATUSES.map(s=>`<option${s===a.status?" selected":""}>${s}</option>`).join("")}</select></td>
+          <td><input type="text" data-f="terms" value="${esc(a.terms||"")}" placeholder="e.g. 70% LTV, 0.85% pm, 2% fee" aria-label="Terms"></td>
+          <td class="small">${esc(a.date?fmtDate(a.date):"")}</td><td><button class="copy" data-act="rm">remove</button></td></tr>`; }).join("")}</tbody></table></div>`
+        :`<p class="small" style="margin:0">No lenders logged yet. Open in the matcher, shortlist lenders, then “Log as approached”.</p>`}
+      <span class="small" data-msg role="status"></span></div>`; }).join("");
+}
+$("#deals").addEventListener("click",async e=>{
+  const card=e.target.closest("[data-deal]"); if(!card) return; const D=DEALS.find(x=>x.id===card.dataset.deal); const msg=card.querySelector("[data-msg]");
+  const o=e.target.closest("[data-open]"); if(o){ e.preventDefault(); openLender(o.dataset.open); return; }
+  const act=e.target.dataset.act;
+  if(act==="load"){ setForm(D.form||{}); currentDealId=D.id; show("match"); renderMatch(); saveLocal(); }
+  if(act==="del"){ if(e.target.dataset.armed){ try{ await must(sb.from("deals").delete().eq("id",D.id)); await loadDeals(); }catch(err){ msg.textContent=errText(err); } } else { e.target.dataset.armed="1"; e.target.textContent="Confirm delete"; setTimeout(()=>{ if(e.target.isConnected){ delete e.target.dataset.armed; e.target.textContent="Delete"; } },4000); } }
+  if(act==="rm"){ const lid=e.target.closest("tr").dataset.lid;
+    try{ await must(sb.from("deal_approaches").delete().match({deal_id:D.id,lender_id:lid})); await touchDeal(D.id); await loadDeals(); }catch(err){ msg.textContent=errText(err); } }
+});
+$("#deals").addEventListener("change",async e=>{
+  const f=e.target.dataset.f; if(!f) return; const card=e.target.closest("[data-deal]"); const D=DEALS.find(x=>x.id===card.dataset.deal); const lid=e.target.closest("tr").dataset.lid;
+  const msg=card.querySelector("[data-msg]"); if(!["status","terms"].includes(f)) return;
+  try{ await must(sb.from("deal_approaches").update({[f]:e.target.value,date:today()}).match({deal_id:D.id,lender_id:lid})); await touchDeal(D.id); msg.textContent="Saved."; loadDeals(); }catch(err){ msg.textContent=errText(err); }
+});
+
+/* ---------- plain-English parse ---------- */
+$("#d-parse").onclick=async()=>{
+  const txt=$("#d-text").value.trim(); const msg=$("#d-parse-msg"); if(!txt){ msg.textContent="Type or paste a deal description first."; return; }
+  if(!db){ msg.textContent="Sign in first."; return; }
+  const btn=$("#d-parse"); btn.disabled=true; msg.textContent="Reading the deal…";
+  try{
+    const {data:j,error}=await sb.functions.invoke("parse-deal",{body:{text:txt}});
+    if(error){ const st=error.context&&error.context.status; throw {code:st===429?"rate_limited":st===403?"not_granted":"error"}; }
+    if(!j||j.error) throw {code:j&&j.error||"error"};
+    const map={dealName:"d-name",type:"d-type",asset:"d-asset",purchase:"d-purchase",works:"d-works",value:"d-value",gdv:"d-gdv",loan:"d-loan",day1:"d-day1",charge:"d-charge",term:"d-term",geo:"d-geo",reg:"d-reg",listed:"d-listed",fn:"d-fn",ftd:"d-ftd"};
+    let n=0;
+    Object.entries(map).forEach(([k,id])=>{ if(j[k]==null||j[k]==="") return; const el=$("#"+id);
+      if(el.type==="checkbox"){ el.checked=!!j[k]; n++; return; }
+      if(el.tagName==="SELECT"){ if([...el.options].some(o=>o.value===String(j[k]))){ el.value=String(j[k]); n++; } return; }
+      el.value=typeof j[k]==="number"&&k!=="term"?gbp(j[k]).replace("£",""):String(j[k]); n++; });
+    currentDealId=null;
+    msg.textContent=`Filled ${n} fields — check them below.`+(j.assumptions?" "+j.assumptions:"");
+    renderMatch(); saveLocal();
+  }catch(e){
+    msg.textContent= e&&e.code==="not_granted"?"You're not on the access list for the deal reader.": e&&e.code==="rate_limited"?"Too many requests — try again in a minute.":"Couldn't read that description. Try adding the loan, value and property type.";
+  }finally{ btn.disabled=false; }
+};
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const c=e.target.closest("[data-copy]"); if(c){ e.stopPropagation(); e.preventDefault(); const t=c.dataset.copy; const old=c.textContent;
+    try{ navigator.clipboard.writeText(t).then(()=>{c.textContent="copied";setTimeout(()=>c.textContent=old,1200)},()=>{c.textContent="copy failed";setTimeout(()=>c.textContent=old,1500)}); }catch(_){ c.textContent="copy failed"; } return; }
+  if(e.target.classList.contains("pick")){ e.stopPropagation(); togglePick(e.target.dataset.id); return; }
+  const r=e.target.closest(".row"); if(r) openLender(r.dataset.id);
+});
+document.addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&e.target.classList?.contains("row")){ e.preventDefault(); openLender(e.target.dataset.id);} });
+
+const views={match:"#view-match",deals:"#view-deals",dir:"#view-dir",add:"#view-add"};
+function show(k){ Object.entries(views).forEach(([n,s])=>{ $(s).hidden=n!==k; $("#tab-"+n).setAttribute("aria-selected",n===k); }); try{localStorage.setItem("pli-tab",k)}catch(_){} }
+Object.keys(views).forEach(k=>$("#tab-"+k).onclick=()=>show(k));
+try{ const t=localStorage.getItem("pli-tab"); if(t&&views[t]) show(t);}catch(_){}
+
+let t; $("#deal").addEventListener("input",()=>{clearTimeout(t);t=setTimeout(()=>{renderMatch();saveLocal();},120);});
+$("#deal").addEventListener("submit",e=>e.preventDefault());
+$("#sort").addEventListener("change",renderMatch);
+$("#d-reset").onclick=()=>{ $("#deal").reset(); currentDealId=null; renderMatch(); saveLocal(); };
+function saveLocal(){ try{ localStorage.setItem("pli-deal",JSON.stringify(formState())); }catch(_){} }
+try{ const s=JSON.parse(localStorage.getItem("pli-deal")||"null"); if(s) setForm(s); }catch(_){}
+if(!$("#d-loan").value){ $("#d-type").value="light"; $("#d-asset").value="resi"; $("#d-purchase").value="1.0m"; $("#d-works").value="150k"; $("#d-gdv").value="1.75m"; $("#d-loan").value="900k"; $("#d-day1").value="650k"; $("#d-term").value="12"; }
+["q","f-prod","f-src","f-prof"].forEach(i=>$("#"+i).addEventListener("input",renderDir));
+
+/* ---------- add lender ---------- */
+$("#addform").addEventListener("submit",async e=>{
+  e.preventDefault(); const msg=$("#a-msg");
+  const name=$("#a-name").value.trim(); if(!name){msg.textContent="Enter the lender's name.";return;}
+  if(!db){msg.textContent="Database not available.";return;}
+  const id=name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  if(LENDERS.some(L=>L.id===id)){msg.textContent=name+" is already in the index.";return;}
+  const p={name:$("#a-cname").value.trim(),role:$("#a-crole").value.trim(),phone:$("#a-cphone").value.trim(),email:$("#a-cemail").value.trim()};
+  Object.keys(p).forEach(k=>{ if(!p[k]) delete p[k]; });
+  const ltv=parseFloat($("#a-ltv").value);
+  const doc={id,name,website:$("#a-web").value.trim()||null,team:p.name?[p]:[],emails:[],productTypes:$("#a-prod").value.split(",").map(s=>s.trim()).filter(Boolean),
+    charges:[],assetTypes:[],geography:[],sources:["Added by a team member"],origin:["Added by team"],
+    maxLTV:{resi:isNaN(ltv)?null:ltv,semi:null,commercial:null,land:null,text:null},minLoan:parseMoney($("#a-min").value),maxLoan:parseMoney($("#a-max").value),
+    status:"Active",isPrincipalLender:true,profile:"Partial",needsResearch:true,confidence:"Low",updated:today()};
+  msg.textContent="Adding…";
+  try{ const {id:_i,name:_n,profile:_p,...rest}=doc; await must(sb.from("lenders").insert({id,name,profile:"Partial",data:rest}));
+    const nt=$("#a-notes").value.trim(); if(nt) await must(sb.from("notes").upsert({lender_id:id,text:nt,updated_at:nowIso(),updated_by:USER_EMAIL}));
+    await Promise.all([loadLenders(),loadNotes()]);
+    msg.textContent=name+" added."; $("#addform").reset(); }
+  catch(err){ msg.textContent=errText(err); }
+});
+
+/* ---------- data (Supabase) ---------- */
+function rerender(){ renderMatch(); renderDir(); renderTray(); }
+async function selectAll(table,cols){ const out=[]; for(let from=0;;from+=1000){ const rows=await must(sb.from(table).select(cols).range(from,from+999)); out.push(...rows); if(rows.length<1000) return out; } }
+async function loadLenders(){
+  const rows=await selectAll("lenders","id,name,profile,data");
+  LENDERS=rows.map(r=>({...(r.data||{}),id:r.id,name:r.name,profile:r.profile||(r.data&&r.data.profile)||"Partial"}));
+  const full=LENDERS.filter(L=>L.profile==="Full").length;
+  $("#sub").textContent=`${LENDERS.length} lenders · ${full} with full criteria`;
+  fillFilters(); rerender(); renderDeals();
+}
+async function loadNotes(){ const rows=await selectAll("notes","lender_id,text,updated_at"); NOTES={}; rows.forEach(r=>NOTES[r.lender_id]={text:r.text,updatedAt:r.updated_at}); rerender(); }
+async function loadVerified(){ const rows=await selectAll("verified","lender_id,date,note"); VERIFIED={}; rows.forEach(r=>VERIFIED[r.lender_id]={date:r.date,note:r.note}); rerender(); }
+async function loadDeals(){
+  const [deals,aps]=await Promise.all([selectAll("deals","id,name,form,created_at,updated_at"),selectAll("deal_approaches","deal_id,lender_id,lender_name,status,terms,date")]);
+  const by={}; aps.forEach(a=>{ (by[a.deal_id]=by[a.deal_id]||{})[a.lender_id]={status:a.status,terms:a.terms,date:a.date,name:a.lender_name}; });
+  DEALS=deals.map(D=>({id:D.id,name:D.name,form:D.form,createdAt:D.created_at,updatedAt:D.updated_at,approaches:by[D.id]||{}})).sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||""));
+  fillDealSelect(); renderDeals(); rerender();
+}
+const LOADERS={lenders:loadLenders,notes:loadNotes,verified:loadVerified,deals:loadDeals,deal_approaches:loadDeals};
+const pending={};
+function startRealtime(){
+  const ch=sb.channel("pli");
+  Object.keys(LOADERS).forEach(t=>ch.on("postgres_changes",{event:"*",schema:"public",table:t},()=>{
+    clearTimeout(pending[t]); pending[t]=setTimeout(()=>LOADERS[t]().catch(()=>{}),300); }));
+  ch.subscribe();
+}
+async function startData(){
+  try{ await Promise.all([loadLenders(),loadNotes(),loadVerified(),loadDeals()]); }
+  catch(err){ $("#results").innerHTML=`<div class="empty">Couldn't load lenders (${esc(err&&(err.code||err.message)||"error")}). Reload the page to try again.</div>`; return; }
+  startRealtime();
+}
+
+/* ---------- auth ---------- */
+let started=false;
+async function applySession(session){
+  if(!session){ db=null; USER_EMAIL=null; $("#auth").hidden=false; $("#who").hidden=true; $("#ask").hidden=true; return; }
+  USER_EMAIL=session.user.email; $("#auth").hidden=true; $("#who").hidden=false; $("#who-email").textContent=USER_EMAIL;
+  if(started) return; started=true;
+  const ok=await sb.rpc("is_member");
+  if(ok.error||!ok.data){ started=false; await sb.auth.signOut(); $("#auth-msg").textContent=USER_EMAIL+" isn't on the access list."; return; }
+  const me=await sb.from("allowed_users").select("name").maybeSingle();
+  USER_NAME=(me.data&&me.data.name)||USER_EMAIL.split("@")[0].replace(/^./,c=>c.toUpperCase());
+  db=true; $("#ask").hidden=false; startData();
+}
+$("#auth-form").addEventListener("submit",async e=>{
+  e.preventDefault(); const email=$("#auth-email").value.trim(); const msg=$("#auth-msg"); if(!email) return;
+  msg.textContent="Sending…";
+  const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});
+  msg.textContent=!error?"Check your inbox for a sign-in link."
+    : /database error|access list/i.test(error.message)?"That email isn't on the access list."
+    : "Couldn't send the link: "+error.message;
+});
+$("#signout").onclick=async()=>{ await sb.auth.signOut(); location.reload(); };
+
+renderMatch(); renderDir();
+sb.auth.onAuthStateChange((_e,s)=>{ setTimeout(()=>applySession(s),0); });
+})();
+</script>
+
+</body></html>
